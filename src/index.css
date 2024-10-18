@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.fancy-scrollbar::-webkit-scrollbar {
+    width: 15px; /* width of the scrollbar */
+    margin-left: 10px;
+}
+.fancy-scrollbar::-webkit-scrollbar-thumb {
+    background: #00e4f0; /* color of the scrollbar thumb */
+    border-radius: 10px;
+    border: 6px solid transparent; /* create space around the thumb */
+    background-clip: padding-box
+}
+.fancy-scrollbar::-webkit-scrollbar-track {
+    background: #2d2d2d; /* color of the scrollbar track */
+    border-radius: 20px;
+}
