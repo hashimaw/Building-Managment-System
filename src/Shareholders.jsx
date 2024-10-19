@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Popup from 'reactjs-popup';
-import AddShareholder from "../src/shareholdersComponents/addShareHolder";
+import AddShareholder from "../src/shareholdersComponents/addShareholder";
 import WithdrawBalance from "../src/shareholdersComponents/withdrawbalance";
 import EditInformation from "../src/shareholdersComponents/editInformation";
 

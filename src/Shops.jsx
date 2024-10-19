@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import AddShops from "../src/shopsComponents/addShops";
 import UpdateShopPrice from "../src/shopsComponents/updateShopPrice";
 import ChangeShareHolder from "../src/shopsComponents/changeShareHolder";
-import EditShopNo from "../src/shopsComponents/editshopno";
+import EditShopNo from "../src/shopsComponents/editShopNo";
 import LeaseShop from "../src/shopsComponents/leaseShop";
 import Terminate from "../src/shopsComponents/terminate";
 
