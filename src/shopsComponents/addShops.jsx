@@ -9,7 +9,7 @@ const AddShops = () =>{
     const [message, setMessage] = useState(false);
 
     useEffect(() => {
-        fetch("http://localhost:4000/getshareholders")
+        fetch("https://bws-51zy.onrender.com/getshareholders")
         .then(res => {
             return res.json();
         })
@@ -32,7 +32,7 @@ const AddShops = () =>{
           } else {
             setMessage(true)
             try {
-                const response = await fetch('http://localhost:4000/addshop',
+                const response = await fetch('https://bws-51zy.onrender.com/addshop',
                 {
                     method: 'POST',
                     headers: {

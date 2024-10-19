@@ -21,7 +21,7 @@ const AddEmployees = () =>{
           } else {
             
             try {
-                const response = await fetch('http://localhost:4000/addemployee',
+                const response = await fetch('https://bws-51zy.onrender.com/addemployee',
                 {
                     method: 'POST',
                     headers: {

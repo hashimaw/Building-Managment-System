@@ -17,7 +17,7 @@ const AddMaintainance = () =>{
           e.preventDefault();
           
             try {
-                const response = await fetch('http://localhost:4000/addcost',
+                const response = await fetch('https://bws-51zy.onrender.com/addcost',
                 {
                     method: 'POST',
                     headers: {

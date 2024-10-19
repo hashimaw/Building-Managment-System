@@ -11,7 +11,7 @@ const Tenants = () => {
     const [isPending, setIsPending] = useState(true);
     
     useEffect(() => {
-        fetch("http://localhost:4000/tenants")
+        fetch("https://bws-51zy.onrender.com/tenants")
         .then(res => {
             return res.json();
         })

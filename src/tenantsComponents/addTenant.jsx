@@ -18,7 +18,7 @@ const AddTenanat = () =>{
           } else {
             
             try {
-                const response = await fetch('http://localhost:4000/addtenant',
+                const response = await fetch('https://bws-51zy.onrender.com/addtenant',
                 {
                     method: 'POST',
                     headers: {

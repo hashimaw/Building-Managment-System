@@ -13,7 +13,7 @@ const WithdrawBalance = ({shareholder}) =>{
           e.preventDefault();
           
             try {
-                const response = await fetch('http://localhost:4000/withdraw',
+                const response = await fetch('https://bws-51zy.onrender.com/withdraw',
                 {
                     method: 'POST',
                     headers: {

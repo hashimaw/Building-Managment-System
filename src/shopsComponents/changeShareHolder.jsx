@@ -8,7 +8,7 @@ const ChangeShareHolder = ({shop}) =>{
  
 
     useEffect(() => {
-        fetch("http://localhost:4000/getshareholders")
+        fetch("https://bws-51zy.onrender.com/getshareholders")
         .then(res => {
             return res.json();
         })
@@ -29,7 +29,7 @@ const ChangeShareHolder = ({shop}) =>{
           } else {
         
             try {
-                const response = await fetch('http://localhost:4000/changeshareholder',
+                const response = await fetch('https://bws-51zy.onrender.com/changeshareholder',
                 {
                     method: 'POST',
                     headers: {

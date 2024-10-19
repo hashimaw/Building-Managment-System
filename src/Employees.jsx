@@ -10,7 +10,7 @@ const Employees = () => {
     const [isPending, setIsPending] = useState(true);
     
     useEffect(() => {
-        fetch("http://localhost:4000/employees")
+        fetch("https://bws-51zy.onrender.com/employees")
         .then(res => {
             return res.json();
         })

@@ -9,7 +9,7 @@ const LeaseShopForTenant = ({tenant}) =>{
     const [duration, setDuration] = useState();
 
     useEffect(() => {
-        fetch("http://localhost:4000/unrentedshops")
+        fetch("https://bws-51zy.onrender.com/unrentedshops")
         .then(res => {
             return res.json();
         })
@@ -30,7 +30,7 @@ const LeaseShopForTenant = ({tenant}) =>{
           } else {
         
             try {
-                const response = await fetch('http://localhost:4000/leaseshop',
+                const response = await fetch('https://bws-51zy.onrender.com/leaseshop',
                 {
                     method: 'POST',
                     headers: {

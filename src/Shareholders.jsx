@@ -11,7 +11,7 @@ const Shareholders = () => {
         const [isPending, setIsPending] = useState(true);
         
         useEffect(() => {
-            fetch("http://localhost:4000/shareholders")
+            fetch("https://bws-51zy.onrender.com/shareholders")
             .then(res => {
                 return res.json();
             })

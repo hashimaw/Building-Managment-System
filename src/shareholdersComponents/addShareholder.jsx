@@ -18,7 +18,7 @@ const AddShareholder = () =>{
           } else {
             
             try {
-                const response = await fetch('http://localhost:4000/addshareholder',
+                const response = await fetch('https://bws-51zy.onrender.com/addshareholder',
                 {
                     method: 'POST',
                     headers: {

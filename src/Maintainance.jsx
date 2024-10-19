@@ -9,7 +9,7 @@ const Maintainance = () => {
         const [isPending, setIsPending] = useState(true);
 
         useEffect(() => {
-            fetch("http://localhost:4000/costs")
+            fetch("https://bws-51zy.onrender.com/costs")
             .then(res => {
                 return res.json();
             })

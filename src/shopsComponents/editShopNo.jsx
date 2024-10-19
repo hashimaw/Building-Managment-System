@@ -12,7 +12,7 @@ const EditShopNo = ({shop}) =>{
           e.preventDefault();
 
             try {
-                const response = await fetch('http://localhost:4000/editshopid',
+                const response = await fetch('https://bws-51zy.onrender.com/editshopid',
                 {
                     method: 'POST',
                     headers: {

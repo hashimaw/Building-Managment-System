@@ -18,7 +18,7 @@ const Terminate = ({shop}) =>{
           e.preventDefault();
          
             try {
-                const response = await fetch('http://localhost:4000/terminate',
+                const response = await fetch('https://bws-51zy.onrender.com/terminate',
                 {
                     method: 'POST',
                     headers: {

@@ -9,7 +9,7 @@ const MaintainanceDist = ( {cost} ) =>{
           e.preventDefault();
           
             try {
-                const response = await fetch('http://localhost:4000/distcost',
+                const response = await fetch('https://bws-51zy.onrender.com/distcost',
                 {
                     method: 'POST',
                     headers: {

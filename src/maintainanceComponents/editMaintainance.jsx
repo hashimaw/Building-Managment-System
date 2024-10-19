@@ -21,7 +21,7 @@ const EditMaintainance = ( {cost} ) =>{
           e.preventDefault();
           
             try {
-                const response = await fetch('http://localhost:4000/editcost',
+                const response = await fetch('https://bws-51zy.onrender.com/editcost',
                 {
                     method: 'POST',
                     headers: {
