@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Popup from 'reactjs-popup';
-import AddEmployees from "./employeesComponents/addEmployee";
-import EditEmployees from "./employeesComponents/editEmployee";
-import PaymentForEmployee from "./employeesComponents/payEmployee";
+import AddEmployees from "../src/employeesComponents/addEmployee";
+import EditEmployees from "../src/employeesComponents/editEmployee";
+import PaymentForEmployee from "../src/employeesComponents/payEmployee";
 
 const Employees = () => {
 

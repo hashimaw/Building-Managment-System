@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import Popup from 'reactjs-popup';
-import AddShops from "./shopsComponents/addShops";
-import UpdateShopPrice from "./shopsComponents/updateShopPrice";
-import ChangeShareHolder from "./shopsComponents/changeShareHolder";
-import EditShopNo from "./shopsComponents/editshopno";
-import LeaseShop from "./shopsComponents/leaseShop";
-import Terminate from "./shopsComponents/terminate";
+import AddShops from "../src/shopsComponents/addShops";
+import UpdateShopPrice from "../src/shopsComponents/updateShopPrice";
+import ChangeShareHolder from "../src/shopsComponents/changeShareHolder";
+import EditShopNo from "../src/shopsComponents/editshopno";
+import LeaseShop from "../src/shopsComponents/leaseShop";
+import Terminate from "../src/shopsComponents/terminate";
 
 const Shops = () => {
 

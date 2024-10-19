@@ -1,8 +1,8 @@
 import { useEffect , useState } from "react";
 import Popup from "reactjs-popup";
-import AddMaintainance from "./maintainanceComponents/addMaintainance";
-import EditMaintainance from "./maintainanceComponents/editMaintainance";
-import MaintainanceDist from "./maintainanceComponents/maintainacedistribution";
+import AddMaintainance from "../src/maintainanceComponents/addMaintainance";
+import EditMaintainance from "../src/maintainanceComponents/editMaintainance";
+import MaintainanceDist from "../src/maintainanceComponents/maintainacedistribution";
 const Maintainance = () => {
 
         const [costs, SetCost] = useState();

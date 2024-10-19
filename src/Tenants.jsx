@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Popup from 'reactjs-popup';
-import AddTenanat from "./tenantsComponents/addTenant";
-import EditTenant from "./tenantsComponents/editTenant";
-import PaymentForm from "./tenantsComponents/paymentForm";
-import LeaseShopForTenant from "./tenantsComponents/leaseShopForTenant";
+import AddTenanat from "../src/tenantsComponents/addTenant";
+import EditTenant from "../src/tenantsComponents/editTenant";
+import PaymentForm from "../src/tenantsComponents/paymentForm";
+import LeaseShopForTenant from "../src/tenantsComponents/leaseShopForTenant";
 
 const Tenants = () => {
 
