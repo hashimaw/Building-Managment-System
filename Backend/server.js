@@ -100,7 +100,28 @@ app.get("/unrentedshops", async (req, res) => {
 
 app.get("/shareholders", async (req, res) => {
     try{
-        const sql = "SELECT shareholders.shareholder_id, shareholders.first_name, shareholders.last_name, shareholders.gender, shareholders.balance, shareholders.phone,  CAST(COUNT(shops.shop_id) AS INT) AS number_of_shops, GROUP_CONCAT(shops.shop_id SEPARATOR ', ') AS shop_ids, GROUP_CONCAT(CASE WHEN shops.rented = 1 THEN shops.shop_id ELSE NULL END SEPARATOR ', ') AS rented_shop_ids FROM shareholders LEFT JOIN shops ON shareholders.shareholder_id = shops.shareholder_id GROUP BY shareholders.shareholder_id ORDER BY number_of_shops DESC;";
+        // SELECT shareholders.shareholder_id, shareholders.first_name, shareholders.last_name, shareholders.gender, shareholders.balance, shareholders.phone,  CAST(COUNT(shops.shop_id) AS INT) AS number_of_shops, GROUP_CONCAT(shops.shop_id SEPARATOR ', ') AS shop_ids, GROUP_CONCAT(CASE WHEN shops.rented = 1 THEN shops.shop_id ELSE NULL END SEPARATOR ', ') AS rented_shop_ids FROM shareholders LEFT JOIN shops ON shareholders.shareholder_id = shops.shareholder_id GROUP BY shareholders.shareholder_id ORDER BY number_of_shops DESC;
+        const sql = `SELECT 
+    shareholders.shareholder_id, 
+    shareholders.first_name, 
+    shareholders.last_name, 
+    shareholders.gender, 
+    shareholders.balance, 
+    shareholders.phone,
+    COUNT(shops.shop_id) AS number_of_shops, 
+    GROUP_CONCAT(shops.shop_id SEPARATOR ', ') AS shop_ids,
+    GROUP_CONCAT(CASE WHEN shops.rented = 1 THEN shops.shop_id ELSE NULL END SEPARATOR ', ') AS rented_shop_ids 
+FROM 
+    shareholders 
+LEFT JOIN 
+    shops 
+ON 
+    shareholders.shareholder_id = shops.shareholder_id 
+GROUP BY 
+    shareholders.shareholder_id 
+ORDER BY 
+    number_of_shops DESC;
+`;
         const [result] = await pool.query(sql);
         
         const modifiedResult = result.map(row => {
