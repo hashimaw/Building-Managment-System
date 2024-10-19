@@ -1,10 +1,12 @@
 import mariadb from "mariadb"
+import dotenv from "dotenv"
+dotenv.config();
 
 var pool = mariadb.createPool({
-    host: "127.0.0.1",
-    user: "root",
-    password: "Hashuye",
-    database: "propertymanagement"
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
 });
 
 
