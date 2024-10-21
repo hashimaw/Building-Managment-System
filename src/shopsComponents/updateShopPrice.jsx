@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from "react";
-import { Input, Select, Option} from "@material-tailwind/react";
-import Popup from 'reactjs-popup';
-const UpdateShopPrice = ({shop}) =>{
+import { useState } from "react";
+import { Input} from "@material-tailwind/react";
+
+const UpdateShopPrice = ({shop, api}) =>{
 
         const [price, setPrice] = useState('');
  
@@ -12,7 +12,7 @@ const UpdateShopPrice = ({shop}) =>{
           e.preventDefault();
 
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/updateshopprice',
+                const response = await fetch(`${api}/updateshopprice`,
                 {
                     method: 'POST',
                     headers: {

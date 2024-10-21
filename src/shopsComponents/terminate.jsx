@@ -1,24 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "@material-tailwind/react";
-import { faIR } from "date-fns/locale";
-
-const Terminate = ({shop}) =>{
 
 
-    
+const Terminate = ({shop, api}) =>{
+
     const [assurance, setAssurance] = useState();
     const [disabled, setDisabled] = useState(true)
 
-        
-
-        const [errorMessage, setErrorMessage] = useState('');
-        const [successMessage, setSuccessMessage] = useState('');
-      
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    
         const handleSubmit = async (e) => {
           e.preventDefault();
          
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/terminate',
+                const response = await fetch(`${api}/terminate`,
                 {
                     method: 'POST',
                     headers: {

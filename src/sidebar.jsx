@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-const SideBar = () => {
+const SideBar = ({api}) => {
     const [tenants, setTenants] = useState(null);
     const [isPending, setIsPending] = useState(true);
     
     useEffect(() => {
-        fetch("https://bws-51zy.onrender.com/tenants")
+        fetch(`${api}/tenants`)
         .then(res => {
             return res.json();
         })

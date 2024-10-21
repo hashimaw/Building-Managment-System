@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input, Select, Option} from "@material-tailwind/react";
 
-const EditEmployees = ( {employee} ) =>{
+const EditEmployees = ({ employee, api }) =>{
         const formatDate = (dateString) => {
             const date = new Date(dateString);
             return date.toISOString().split('T')[0];
@@ -25,7 +25,7 @@ const EditEmployees = ( {employee} ) =>{
           } else {
             
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/editemployee',
+                const response = await fetch(`${api}/editemployee`,
                 {
                     method: 'POST',
                     headers: {

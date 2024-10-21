@@ -4,13 +4,13 @@ import AddEmployees from "../src/employeesComponents/addEmployee";
 import EditEmployees from "../src/employeesComponents/editEmployee";
 import PaymentForEmployee from "../src/employeesComponents/payEmployee";
 
-const Employees = () => {
+const Employees = ({api}) => {
 
     const [employees, setEmployees] = useState([]);
     const [isPending, setIsPending] = useState(true);
     
     useEffect(() => {
-        fetch("https://bws-51zy.onrender.com/employees")
+        fetch(`${api}/employees`)
         .then(res => {
             return res.json();
         })

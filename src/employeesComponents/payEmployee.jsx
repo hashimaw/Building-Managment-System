@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Select, Option, Input, select } from "@material-tailwind/react";
 
-const PaymentForEmployee = ({employee}) =>{
+const PaymentForEmployee = ({employee, api}) =>{
 
     const [duration, setDuration] = useState();
 
@@ -11,7 +11,7 @@ const PaymentForEmployee = ({employee}) =>{
         const handleSubmit = async (e) => {
           e.preventDefault();
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/payemployee',
+                const response = await fetch(`${api}/payemployee`,
                 {
                     method: 'POST',
                     headers: {

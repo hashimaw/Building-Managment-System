@@ -10,7 +10,7 @@ const PaymentForm = ({tenant}) =>{
         const [successMessage, setSuccessMessage] = useState('');
 
         useEffect(() => {
-            fetch(`https://bws-51zy.onrender.com/get/${tenant.shop_id}`)
+            fetch(`${api}/get/${tenant.shop_id}`)
             .then(res => {
                 return res.json();
             })
@@ -23,7 +23,7 @@ const PaymentForm = ({tenant}) =>{
           e.preventDefault();
       
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/extendlease',
+                const response = await fetch(`${api}/extendlease`,
                 {
                     method: 'POST',
                     headers: {

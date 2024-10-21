@@ -4,14 +4,13 @@ import AddShareholder from "../src/shareholdersComponents/addShareholder";
 import WithdrawBalance from "../src/shareholdersComponents/withdrawbalance";
 import EditInformation from "../src/shareholdersComponents/editInformation";
 
-const Shareholders = () => {
-
-        
+const Shareholders = ({api}) => {
+  
         const [shareholders, setShareholders] = useState(null);
         const [isPending, setIsPending] = useState(true);
         
         useEffect(() => {
-            fetch("https://bws-51zy.onrender.com/shareholders")
+            fetch( `${api}/shareholders`)
             .then(res => {
                 return res.json();
             })
@@ -41,7 +40,7 @@ const Shareholders = () => {
                                 Add Shareholder
                             </div>
                         </button>}>
-                        {AddShareholder}
+                        <AddShareholder api = {api}/>
                     </Popup>
 
                     <div className="px-4 py-2 bg-[#20744a] rounded text-center self-center flex gap-2 items-center text-white text-lg">
@@ -103,10 +102,10 @@ const Shareholders = () => {
                                 {close =>(
                                 <div className="bg-[#202020] border-gray-700 border rounded text-gray-300 text-sm p-1 gap-1 flex flex-col">
                                    <Popup modal trigger={ <span className="hover:bg-[#111111] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">Withdraw Balance</span>}>
-                                   <WithdrawBalance shareholder = {shareholder} />
+                                   <WithdrawBalance api = {api} shareholder = {shareholder} />
                                    </Popup>
                                    <Popup modal trigger={ <span className="hover:bg-[#111111] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">Edit Information</span>}>
-                                   <EditInformation shareholder={shareholder}/>
+                                   <EditInformation api = {api} shareholder={shareholder}/>
                                    </Popup>
                                 </div>
                                 )}

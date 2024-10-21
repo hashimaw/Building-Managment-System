@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Input, Select, Option} from "@material-tailwind/react";
 
-const EditTenant = ({tenant}) =>{
+const EditTenant = ({tenant, api}) =>{
 
         const [firstName, setFirstName] = useState(tenant.first_name);
         const [lastName, setLastName] = useState(tenant.last_name);
@@ -18,7 +18,7 @@ const EditTenant = ({tenant}) =>{
           } else {
             
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/edittenant',
+                const response = await fetch(`${api}/edittenant`,
                 {
                     method: 'POST',
                     headers: {

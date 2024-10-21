@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Input, Select, Option} from "@material-tailwind/react";
+import { Input } from "@material-tailwind/react";
 
-const WithdrawBalance = ({shareholder}) =>{
+const WithdrawBalance = ({shareholder, api}) =>{
 
         const [withdrawAmount, setWithdrawAmmount] = useState()
-
 
         const [errorMessage, setErrorMessage] = useState('');
         const [successMessage, setSuccessMessage] = useState('');
@@ -13,7 +12,7 @@ const WithdrawBalance = ({shareholder}) =>{
           e.preventDefault();
           
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/withdraw',
+                const response = await fetch(`${api}/withdraw`,
                 {
                     method: 'POST',
                     headers: {

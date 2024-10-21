@@ -3,13 +3,13 @@ import Popup from "reactjs-popup";
 import AddMaintainance from "../src/maintainanceComponents/addMaintainance";
 import EditMaintainance from "../src/maintainanceComponents/editMaintainance";
 import MaintainanceDist from "../src/maintainanceComponents/maintainacedistribution";
-const Maintainance = () => {
+const Maintainance = ({api}) => {
 
         const [costs, SetCost] = useState();
         const [isPending, setIsPending] = useState(true);
 
         useEffect(() => {
-            fetch("https://bws-51zy.onrender.com/costs")
+            fetch(`${api}/costs`)
             .then(res => {
                 return res.json();
             })
@@ -35,7 +35,7 @@ const Maintainance = () => {
                                 Add Cost
                             </div>
                         </button>}>
-                      <AddMaintainance/>
+                      <AddMaintainance api = {api}/>
                     </Popup>
                     <div className="px-4 py-2 bg-[#20744a] rounded text-center self-center flex gap-2 items-center text-white text-lg">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="">
@@ -94,10 +94,10 @@ const Maintainance = () => {
                                     <Popup modal trigger={ <span className={cost.status == "Completed" && !cost.distributed ? "hover:bg-[rgb(17,17,17)] text-[#38f5ff] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer" : "hover:bg-[rgb(17,17,17)] text-gray-600 border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-not-allowed"}>
                                         {cost.status == "Completed" ? "Process The Transaction" : "Complete The Task To Process"}
                                          </span>}>
-                                        {cost.status == "Completed" && !cost.distributed ? <MaintainanceDist cost={cost}/>:""}
+                                        {cost.status == "Completed" && !cost.distributed ? <MaintainanceDist api = {api} cost={cost}/>:""}
                                     </Popup>
                                     <Popup modal trigger={ <span className={!cost.distributed ? "hover:bg-[rgb(17,17,17)] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer" : "hover:bg-[rgb(17,17,17)] text-gray-600 border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-not-allowed"}>Edit Information</span>}>
-                                    {!cost.distributed ? <EditMaintainance cost={cost}/>:""}
+                                    {!cost.distributed ? <EditMaintainance api = {api} cost={cost}/>:""}
                                     </Popup>
                                 
                                 </div>

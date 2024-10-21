@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { Input, Select, Option} from "@material-tailwind/react";
 
-const EditInformation = ({shareholder}) =>{
+const EditInformation = ({shareholder, api}) =>{
 
         const [firstName, setFirstName] = useState(shareholder.first_name);
         const [lastName, setLastName] = useState(shareholder.last_name);
@@ -18,7 +18,7 @@ const EditInformation = ({shareholder}) =>{
           } else {
             
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/editshareholder',
+                const response = await fetch(`${api}/editshareholder`,
                 {
                     method: 'POST',
                     headers: {

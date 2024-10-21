@@ -7,14 +7,14 @@ import EditShopNo from "../src/shopsComponents/editShopNo";
 import LeaseShop from "../src/shopsComponents/leaseShop";
 import Terminate from "../src/shopsComponents/terminate";
 
-const Shops = () => {
+const Shops = ({api}) => {
 
     
     const [shops, setShops] = useState(null);
     const [isPending, setIsPending] = useState(true);
     
     useEffect(() => {
-        fetch("https://bws-51zy.onrender.com/shops")
+        fetch(`${api}/shops`)
         .then(res => {
             return res.json();
         })
@@ -42,7 +42,7 @@ const Shops = () => {
                                 Add Shop
                             </div>
                         </button>}>
-                        {<AddShops/>}       
+                        {<AddShops api = {api}/>}       
                     </Popup>
 
                     <button>
@@ -105,16 +105,16 @@ const Shops = () => {
                                 {close =>(
                                 <div className="bg-[#202020] border-gray-700 border rounded text-gray-300 text-sm p-1 gap-1 flex flex-col">
                                    <Popup modal trigger={ <span className="hover:bg-[#111111] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">Update Price</span>}>
-                                   <UpdateShopPrice shop = {shop }  />
+                                   <UpdateShopPrice api = {api} shop = {shop }  />
                                    </Popup>
                                    <Popup modal trigger={ <span className="hover:bg-[#111111] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">Change Owner</span>}>
-                                   <ChangeShareHolder shop = {shop }  />
+                                   <ChangeShareHolder api = {api} shop = {shop }  />
                                    </Popup>
                                    <Popup modal trigger={ <span className="hover:bg-[#111111] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">Edit Shop No.</span>}>
-                                   <EditShopNo shop = {shop }  />
+                                   <EditShopNo api = {api} shop = {shop }  />
                                    </Popup>
                                    <Popup modal trigger={ <span className="hover:bg-[#111111] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">{shop.rented ?(<div className="text-red-400">Terminate</div>):(<div className="text-[#2dd4bf]">Lease Shop</div>)}</span>}>
-                                   {shop.rented?<Terminate shop = {shop }  />:<LeaseShop shop ={shop}/>}
+                                   {shop.rented?<Terminate api = {api} shop = {shop }  />:<LeaseShop api = {api} shop ={shop}/>}
                                    </Popup>
                                 </div>
                                 )}

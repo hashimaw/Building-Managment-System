@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Input, Select, Option, Textarea} from "@material-tailwind/react";
 
-const EditMaintainance = ( {cost} ) =>{
+const EditMaintainance = ({ cost, api }) =>{
+
         const formatDate = (dateString) => {
             const date = new Date(dateString);
             return date.toISOString().split('T')[0];
@@ -21,7 +22,7 @@ const EditMaintainance = ( {cost} ) =>{
           e.preventDefault();
           
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/editcost',
+                const response = await fetch(`${api}/editcost`,
                 {
                     method: 'POST',
                     headers: {

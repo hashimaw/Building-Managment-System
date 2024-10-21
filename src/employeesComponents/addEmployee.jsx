@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input, Select, Option} from "@material-tailwind/react";
 
-const AddEmployees = () =>{
+const AddEmployees = ({api}) =>{
 
         const [firstName, setFirstName] = useState('');
         const [lastName, setLastName] = useState('');
@@ -21,7 +21,7 @@ const AddEmployees = () =>{
           } else {
             
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/addemployee',
+                const response = await fetch(`${api}/addemployee`,
                 {
                     method: 'POST',
                     headers: {

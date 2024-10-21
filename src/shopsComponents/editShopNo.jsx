@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Input, Select, Option} from "@material-tailwind/react";
 import Popup from 'reactjs-popup';
-const EditShopNo = ({shop}) =>{
+const EditShopNo = ({shop, api}) =>{
 
         const [newShopId, setNewShopId] = useState('');
  
@@ -12,7 +12,7 @@ const EditShopNo = ({shop}) =>{
           e.preventDefault();
 
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/editshopid',
+                const response = await fetch(`${api}/editshopid`,
                 {
                     method: 'POST',
                     headers: {

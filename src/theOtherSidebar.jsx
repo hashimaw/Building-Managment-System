@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-const TheOtherSideBar = () => {
+const TheOtherSideBar = ({api}) => {
     const [shareholders, setShareholders] = useState(null);
     const [isPending, setIsPending] = useState(true);
    
     useEffect(() => {
-        fetch("https://bws-51zy.onrender.com/shareholders")
+        fetch(`${api}/shareholders`)
         .then(res => {
             return res.json();
         })

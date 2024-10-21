@@ -5,13 +5,13 @@ import EditTenant from "../src/tenantsComponents/editTenant";
 import PaymentForm from "../src/tenantsComponents/paymentForm";
 import LeaseShopForTenant from "../src/tenantsComponents/leaseShopForTenant";
 
-const Tenants = () => {
+const Tenants = ({api}) => {
 
     const [tenants, setTenants] = useState(null);
     const [isPending, setIsPending] = useState(true);
     
     useEffect(() => {
-        fetch("https://bws-51zy.onrender.com/tenants")
+        fetch( `${api}/tenants`)
         .then(res => {
             return res.json();
         })
@@ -41,7 +41,7 @@ const Tenants = () => {
                                 Add Tenant
                             </div>
                         </button>}>
-                        {AddTenanat}       
+                        <AddTenanat api = {api}/>       
                     </Popup>
                     <div className="px-4 py-2 bg-[#20744a] rounded text-center self-center flex gap-2 items-center text-white text-lg">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="">
@@ -102,10 +102,10 @@ const Tenants = () => {
                                 {close =>(
                                 <div className="bg-[#202020] border-gray-700 border rounded text-gray-300 text-sm p-1 gap-1 flex flex-col">
                                    <Popup modal trigger={ <span className="hover:bg-[rgb(17,17,17)] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">{tenant.shop_id ?(<div>Payment</div>):(<div className="text-[#2dd4bf]">Lease Shop</div>)}</span>}>
-                                   {tenant.active? <PaymentForm tenant = {tenant}/> : <LeaseShopForTenant tenant = {tenant}/>}
+                                   {tenant.active? <PaymentForm api = {api} tenant = {tenant}/> : <LeaseShopForTenant api = {api} tenant = {tenant}/>}
                                    </Popup>
                                    <Popup modal trigger={ <span className="hover:bg-[#111111] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">Edit Information</span>}>
-                                   <EditTenant tenant = {tenant} />
+                                   <EditTenant api = {api} tenant = {tenant} />
                                    </Popup>
                                   
                                 </div>

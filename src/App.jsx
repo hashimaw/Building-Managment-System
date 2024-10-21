@@ -10,7 +10,8 @@ import TheOtherSideBar from "./theOtherSidebar";
 import Dashboard from './Dashboard';
 
 function App() {
-
+  // https://bws-51zy.onrender.com
+ const api = 'https://bws-51zy.onrender.com';
   return (
     <div className='bg-black overflow-y-scroll h-screen fancy-scrollbar'>
     <div className="max-w-screen-3xl mx-auto h-fit ">
@@ -18,21 +19,21 @@ function App() {
       <NavBar />  
       </div>
       <div className="flex justify-center">
-        <div className="p-3 hidden lg:block"><SideBar /></div>
+        <div className="p-3 hidden lg:block"><SideBar api = {api}/></div>
        
         <div className="p-3  ">
           <Routes>
             <Route path="/" element={<Dashboard/>}/>
-            <Route path="/tenants" element={<Tenants/>}/>
-            <Route path="/shareholders" element={<Shareholders/>}/>
-            <Route path="/employees" element={<Employees/>}/>
-            <Route path="/maintainance" element={<Maintainance/>}/>
-            <Route path="/shops" element={<Shops/>}/>
+            <Route path="/tenants" element={<Tenants api = {api}/>}/>
+            <Route path="/shareholders" element={<Shareholders api = {api}/>}/>
+            <Route path="/employees" element={<Employees api = {api}/>}/>
+            <Route path="/maintainance" element={<Maintainance api = {api}/>}/>
+            <Route path="/shops" element={<Shops api = {api}/>}/>
             <Route path="*" element ={<div className='text bg-green-800'>404 Not found</div>} />
           </Routes>
         </div>
 
-        <div className="p-3 hidden 2xl:block "><TheOtherSideBar /></div>
+        <div className="p-3 hidden 2xl:block "><TheOtherSideBar api = {api}/></div>
       </div>
       
     </div>

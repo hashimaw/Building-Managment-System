@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Select, Option} from "@material-tailwind/react";
 
-const ChangeShareHolder = ({shop}) =>{
+const ChangeShareHolder = ({shop, api}) =>{
 
     const [shareHolders, setShareHolders] = useState([]);
     const [selectedHolder, setSelectedHolder] = useState();
  
 
     useEffect(() => {
-        fetch("https://bws-51zy.onrender.com/getshareholders")
+        fetch(`${api}/getshareholders`)
         .then(res => {
             return res.json();
         })
@@ -29,7 +29,7 @@ const ChangeShareHolder = ({shop}) =>{
           } else {
         
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/changeshareholder',
+                const response = await fetch(`${api}/changeshareholder`,
                 {
                     method: 'POST',
                     headers: {

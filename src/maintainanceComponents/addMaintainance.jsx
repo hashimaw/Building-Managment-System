@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input, Select, Option, Textarea} from "@material-tailwind/react";
 
-const AddMaintainance = () =>{
+const AddMaintainance = ({api}) =>{
 
         const [name, setName] = useState();
         const [type, setType] = useState();
@@ -17,7 +17,7 @@ const AddMaintainance = () =>{
           e.preventDefault();
           
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/addcost',
+                const response = await fetch(`${api}/addcost`,
                 {
                     method: 'POST',
                     headers: {

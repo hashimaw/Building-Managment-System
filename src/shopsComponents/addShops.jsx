@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Input, Select, Option} from "@material-tailwind/react";
 
-const AddShops = () =>{
+const AddShops = ({api}) =>{
 
     const [shareHolders, setShareHolders] = useState([]);
     const [selectedHolder, setSelectedHolder] = useState();
@@ -9,7 +9,7 @@ const AddShops = () =>{
     const [message, setMessage] = useState(false);
 
     useEffect(() => {
-        fetch("https://bws-51zy.onrender.com/getshareholders")
+        fetch(`${api}/getshareholders`)
         .then(res => {
             return res.json();
         })
@@ -32,7 +32,7 @@ const AddShops = () =>{
           } else {
             setMessage(true)
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/addshop',
+                const response = await fetch(`${api}/addshop`,
                 {
                     method: 'POST',
                     headers: {

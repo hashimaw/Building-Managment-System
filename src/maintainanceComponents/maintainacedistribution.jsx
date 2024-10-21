@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const MaintainanceDist = ( {cost} ) =>{
+const MaintainanceDist = ({ cost, api }) =>{
 
         const [errorMessage, setErrorMessage] = useState('');
         const [successMessage, setSuccessMessage] = useState('');
@@ -9,7 +9,7 @@ const MaintainanceDist = ( {cost} ) =>{
           e.preventDefault();
           
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/distcost',
+                const response = await fetch(`${api}/distcost`,
                 {
                     method: 'POST',
                     headers: {

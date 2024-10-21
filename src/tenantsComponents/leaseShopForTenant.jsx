@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Select, Option, Input, select } from "@material-tailwind/react";
+import { Select, Option, Input } from "@material-tailwind/react";
 
-const LeaseShopForTenant = ({tenant}) =>{
+const LeaseShopForTenant = ({tenant, api}) =>{
 
     const [shops, setShops] = useState([]);
     const [selectedShop, setSelectedShop] = useState();
@@ -9,7 +9,7 @@ const LeaseShopForTenant = ({tenant}) =>{
     const [duration, setDuration] = useState();
 
     useEffect(() => {
-        fetch("https://bws-51zy.onrender.com/unrentedshops")
+        fetch(`${api}/unrentedshops`)
         .then(res => {
             return res.json();
         })
@@ -30,7 +30,7 @@ const LeaseShopForTenant = ({tenant}) =>{
           } else {
         
             try {
-                const response = await fetch('https://bws-51zy.onrender.com/leaseshop',
+                const response = await fetch(`${api}/leaseshop`,
                 {
                     method: 'POST',
                     headers: {

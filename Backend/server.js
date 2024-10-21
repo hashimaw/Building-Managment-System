@@ -269,16 +269,29 @@ app.post("/leaseshop", async (req, res) => {
     const date_to = CalculateExpiration(date_from, duration)
     const today = moment().format('YYYY-MM-DD');
     const active = date_to >= today;
+    let conn;
     
     const indicateorInTenant = `update tenants set active = true where tenant_id = ${tenant_id}`
     const establishLeaseInShopsTable = `update shops set tenant_id = '${req.body.tenant_id}', rented = 1 WHERE shop_id = '${req.body.shop_id}';`;
     const createInvoice = `INSERT INTO invoices (tenant_id, shop_id, shareholder_id, date_from, date_to, duration, shop_price, active) SELECT ${tenant_id}, s.shop_id, s.shareholder_id, '${date_from}', '${date_to}', ${duration}, s.price, ${active} FROM shops s WHERE s.shop_id = '${shop_id}';`;
     const addbalancetoshareholder = `UPDATE shareholders sh JOIN shops s ON sh.shareholder_id = s.shareholder_id SET sh.balance = sh.balance + (s.price * ${duration}) WHERE s.shop_id = '${shop_id}'`
     
-    executeAddQuerys(indicateorInTenant, res);
-    executeAddQuerys(establishLeaseInShopsTable, res);
-    executeAddQuerys(createInvoice, res);
-    executeAddQuerys(addbalancetoshareholder, res);
+    try{
+        conn = await pool.getConnection();
+        
+        const result1 = await conn.query(indicateorInTenant);
+        const result2 = await conn.query(establishLeaseInShopsTable);
+        const result3 = await conn.query(createInvoice);
+        const result4 = await conn.query(addbalancetoshareholder);
+        res.status(200).json({ message: 'Data inserted successfully'})
+        conn.end();
+    }catch(err){
+        console.error('Error inserting data:', err);
+        res.status(500).json({ error: 'Failed to insert data' });
+        throw err;
+    }finally {
+        if(conn) conn.end();
+    }
 })
 
 app.post("/extendlease", async (req, res) => {
@@ -291,6 +304,7 @@ app.post("/extendlease", async (req, res) => {
         const extendleasesql = `SELECT * FROM invoices WHERE shop_id = '${shop_id}' ORDER BY date_to DESC LIMIT 1;`;
         result = await conn.query(extendleasesql);
        console.log(result);
+       res.status(200).json({})
        conn.end();
     }catch(err){
         console.error('Error inserting data:', err);
