@@ -41,7 +41,6 @@ const executeGetQuerys = async (sql, res) => {
       conn.end();
     } catch (err) {
       res.status(500).send('Internal Server Error');
-      conn.end();
       throw err;
     } finally {
       if (conn) conn.end(); // Properly close the connection
@@ -58,7 +57,6 @@ const executeGetQuerys = async (sql, res) => {
     }catch(err){
         console.error('Error inserting data:', err);
         res.status(500).json({ error: 'Failed to insert data' });
-        conn.end();
         throw err;
     }finally {
         if (conn) conn.end(); // Properly close the connection
@@ -215,7 +213,6 @@ app.post("/withdraw", async (req, res) => {
         currentAmount = result[0].balance
         conn.end();
     } catch (error) {
-        conn.end();
         throw error
     } finally {
         if(conn) conn.end();
@@ -233,7 +230,6 @@ app.post("/withdraw", async (req, res) => {
         }catch(err){
             console.error('Error inserting data:', err);
             res.status(500).json({ error: 'Failed to insert data' });
-            conn.end();
             throw err;
         }finally {
             if(conn) conn.end();
@@ -299,7 +295,6 @@ app.post("/extendlease", async (req, res) => {
     }catch(err){
         console.error('Error inserting data:', err);
         res.status(500).json({ error: 'Failed to insert data' });
-        conn.end();
         throw err;
     }finally {
         if(conn) conn.end();
@@ -323,7 +318,6 @@ app.post("/extendlease", async (req, res) => {
     }catch(err){
         console.error('Error inserting data:', err);
         res.status(500).json({ error: 'Failed to insert data' });
-        conn.end();
         throw err;
     }finally {
         if(conn) conn.end();
@@ -383,7 +377,6 @@ app.post("/payemployee", async (req, res) => {
     }catch(err){
         console.error('Error inserting data:', err);
         res.status(500).json({ error: 'Failed to insert data' });
-        conn.end();
         throw err;
     }finally {
         if(conn) conn.end();
@@ -403,7 +396,6 @@ app.post("/payemployee", async (req, res) => {
     }catch(err){
         console.error('Error inserting data:', err);
         res.status(500).json({ error: 'Failed to insert data' });
-        conn.end();
         throw err;
     }finally {
         if(conn) conn.end();

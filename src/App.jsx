@@ -30,6 +30,7 @@ function App() {
             <Route path="/shops" element={<Shops/>}/>
           </Routes>
         </div>
+        
         <div className="p-3 hidden 2xl:block "><TheOtherSideBar /></div>
       </div>
       
