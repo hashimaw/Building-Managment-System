@@ -279,19 +279,31 @@ app.post("/leaseshop", async (req, res) => {
     try{
         conn = await pool.getConnection();
         
-        const result1 = await conn.query(indicateorInTenant);
-        const result2 = await conn.query(establishLeaseInShopsTable);
-        const result3 = await conn.query(createInvoice);
-        const result4 = await conn.query(addbalancetoshareholder);
-        res.status(200).json({ message: 'Data inserted successfully'})
-        conn.end();
-    }catch(err){
-        console.error('Error inserting data:', err);
-        res.status(500).json({ error: 'Failed to insert data' });
-        throw err;
-    }finally {
-        if(conn) conn.end();
-    }
+        await conn.query(indicateorInTenant);
+        await conn.query(establishLeaseInShopsTable);
+        await conn.query(createInvoice);
+        await conn.query(addbalancetoshareholder);
+
+        if (!res.headersSent) {
+            res.status(200).json({ message: 'Data inserted successfully' });
+          }
+      
+        } catch (err) {
+          console.error('Error inserting data:', err);
+      
+          if (!res.headersSent) {
+            res.status(500).json({ error: 'Failed to insert data' });
+          }
+          
+        } finally {
+          if (conn) {
+            try {
+              await conn.end(); // Ensure the connection is properly closed
+            } catch (closeError) {
+              console.error('Error closing connection:', closeError);
+            }
+          }
+        }
 })
 
 app.post("/extendlease", async (req, res) => {
@@ -301,8 +313,8 @@ app.post("/extendlease", async (req, res) => {
     let conn;
     try{
         conn = await pool.getConnection();
-        const extendleasesql = `SELECT * FROM invoices WHERE shop_id = '${shop_id}' ORDER BY date_to DESC LIMIT 1;`;
-        result = await conn.query(extendleasesql);
+        const getlatestinvoicesql = `SELECT * FROM invoices WHERE shop_id = '${shop_id}' ORDER BY date_to DESC LIMIT 1;`;
+        result = await conn.query(getlatestinvoicesql);
        console.log(result);
        res.status(200).json({})
        conn.end();
@@ -325,17 +337,29 @@ app.post("/extendlease", async (req, res) => {
         conn = await pool.getConnection();
         const addbalancetoshareholder = `UPDATE shareholders sh JOIN shops s ON sh.shareholder_id = s.shareholder_id SET sh.balance = sh.balance + (s.price * ${duration}) WHERE s.shop_id = '${shop_id}'`
         const createInvoice = `INSERT INTO invoices (tenant_id, shop_id, shareholder_id, date_from, date_to, duration, shop_price, active) SELECT ${tenant_id}, s.shop_id, s.shareholder_id, '${date_from}', '${date_to}', ${duration}, s.price, ${active} FROM shops s WHERE s.shop_id = '${shop_id}';`;
-        const result1 = await conn.query(createInvoice);
-        const result2 = await conn.query(addbalancetoshareholder);
-        res.status(200).json({ message: 'Data inserted successfully'})
-        conn.end();
-    }catch(err){
-        console.error('Error inserting data:', err);
-        res.status(500).json({ error: 'Failed to insert data' });
-        throw err;
-    }finally {
-        if(conn) conn.end();
+        await conn.query(createInvoice);
+        await conn.query(addbalancetoshareholder);
+
+    if (!res.headersSent) {
+      res.status(200).json({ message: 'Data inserted successfully' });
     }
+
+  } catch (err) {
+    console.error('Error inserting data:', err);
+
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Failed to insert data' });
+    }
+
+  } finally {
+    if (conn) {
+      try {
+        await conn.end(); // Ensure the connection is properly closed
+      } catch (closeError) {
+        console.error('Error closing connection:', closeError);
+      }
+    }
+  }
 });
 
 app.post("/terminate", async (req, res) => {
@@ -362,7 +386,31 @@ app.post("/addemployee", async (req, res) => {
 app.get("/employees", async (req, res) => {
     console.log(req.body)
 
-    const getemployeessql = `select e.employee_id, e.first_name, e.last_name, e.gender, e.position, e.phone, e.salary, e.employment_date, ei.date_to, DATEDIFF(date_to, CURRENT_DATE) AS remaining_days from employees e left join employeeinvoice ei ON e.employee_id = ei.employee_id; `;
+    const getemployeessql = `SELECT 
+    e.employee_id, 
+    e.first_name, 
+    e.last_name, 
+    e.gender, 
+    e.position, 
+    e.phone, 
+    e.salary, 
+    e.employment_date, 
+    latest_invoices.date_to, 
+    DATEDIFF(latest_invoices.date_to, CURRENT_DATE) AS remaining_days
+FROM 
+    employees e
+LEFT JOIN 
+    (SELECT 
+         ei.employee_id, 
+         ei.date_to, 
+         ROW_NUMBER() OVER (PARTITION BY ei.employee_id ORDER BY ei.date_to DESC) as rn
+     FROM 
+         employeeinvoice ei) as latest_invoices 
+ON 
+    e.employee_id = latest_invoices.employee_id 
+AND 
+    latest_invoices.rn = 1;
+`;
     executeGetQuerys(getemployeessql, res);
 })
 
@@ -381,9 +429,9 @@ app.post("/payemployee", async (req, res) => {
     var conn;
     try{
         conn = await pool.getConnection()
-        const invoicesql = `SELECT * FROM employeeinvoice WHERE employee_id = '${employee_id}' ORDER BY date_to DESC LIMIT 1;`;
+        const latestinvoicesql = `SELECT * FROM employeeinvoice WHERE employee_id = '${employee_id}' ORDER BY date_to DESC LIMIT 1;`;
         const employeesql = `select * from employees where employee_id = '${employee_id}'`
-        invoice = await conn.query(invoicesql);
+        invoice = await conn.query(latestinvoicesql);
        console.log(invoice);
        employee = await conn.query(employeesql);
        console.log(employee)
@@ -427,7 +475,7 @@ app.post("/editcost", async (req, res) => {
     console.log(req.body)
 
     const editcostsql = `update costs SET name = '${req.body.name}', type = '${req.body.type}', price = ${req.body.price}, description = "${req.body.description}", status = '${req.body.status}', date = '${req.body.date}' WHERE cost_id = ${req.body.cost_id};`;
-    executeAddQuerys(editcostsql, sql);
+    executeAddQuerys(editcostsql, res);
 })
 
 app.get("/costs", async (req, res) => {

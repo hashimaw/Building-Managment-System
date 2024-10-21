@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Select, Option, Input, select } from "@material-tailwind/react";
+import { useState } from "react";
+import { Input } from "@material-tailwind/react";
 
 const PaymentForEmployee = ({employee, api}) =>{
 

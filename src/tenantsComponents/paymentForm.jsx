@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Select, Option, Input } from "@material-tailwind/react";
 
-const PaymentForm = ({tenant}) =>{
+const PaymentForm = ({tenant, api}) =>{
 
     const [duration, setDuration] = useState();        
     const [invoice, setInvoice] = useState();

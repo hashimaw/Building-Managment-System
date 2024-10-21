@@ -98,10 +98,10 @@ const Employees = ({api}) => {
                                         {close =>(
                                         <div className="bg-[#202020] border-gray-700 border rounded text-gray-300 text-sm p-1 gap-1 flex flex-col">
                                         <Popup modal trigger={ <span className="hover:bg-[rgb(17,17,17)] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">Payment</span>}>
-                                            {<PaymentForEmployee employee={employee}/>}
+                                            {<PaymentForEmployee api = {api} employee={employee}/>}
                                         </Popup>
                                         <Popup modal trigger={ <span className="hover:bg-[#111111] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">Edit Information</span>}>
-                                            {<EditEmployees employee={employee}/>}
+                                            {<EditEmployees api = {api} employee={employee}/>}
                                         </Popup>
                                         
                                         </div>
