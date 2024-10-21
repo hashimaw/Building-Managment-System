@@ -11,7 +11,7 @@ import Dashboard from './Dashboard';
 
 function App() {
   // https://bws-51zy.onrender.com
- const api = 'http://localhost:4000';
+ const api = 'https://bws-51zy.onrender.com';
   return (
     <div className='bg-black overflow-y-scroll h-screen fancy-scrollbar'>
     <div className="max-w-screen-3xl mx-auto h-fit ">
