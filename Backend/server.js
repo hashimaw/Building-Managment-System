@@ -174,7 +174,7 @@ app.post("/addshop", async (req, res) => {
 app.post("/updateshopprice", async (req, res) => {
     console.log(req.body)
 
-    const updateshoppricesql = `UPDATE shops SET price = ${req.body.price} WHERE shop_id = ${req.body.shop_id}`;
+    const updateshoppricesql = `UPDATE shops SET price = ${req.body.price} WHERE shop_id = '${req.body.shop_id}'`;
     executeAddQuerys(updateshoppricesql, res);
 });
 
