@@ -38,8 +38,10 @@ const executeGetQuerys = async (sql, res) => {
       const result = await conn.query(sql);
       res.send(JSON.stringify(result, bigIntReplacer));
       console.log(result);
+      conn.end();
     } catch (err) {
       res.status(500).send('Internal Server Error');
+      conn.end();
       throw err;
     } finally {
       if (conn) conn.end(); // Properly close the connection
@@ -52,9 +54,11 @@ const executeGetQuerys = async (sql, res) => {
         conn = await pool.getConnection();
         const result = await conn.query(sql);
         res.status(200).json({ message: 'Data inserted successfully'})
+        conn.end();
     }catch(err){
         console.error('Error inserting data:', err);
         res.status(500).json({ error: 'Failed to insert data' });
+        conn.end();
         throw err;
     }finally {
         if (conn) conn.end(); // Properly close the connection
@@ -209,7 +213,9 @@ app.post("/withdraw", async (req, res) => {
         const result = await conn.query(sqltogetamount)
         console.log(result)
         currentAmount = result[0].balance
+        conn.end();
     } catch (error) {
+        conn.end();
         throw error
     } finally {
         if(conn) conn.end();
@@ -223,9 +229,11 @@ app.post("/withdraw", async (req, res) => {
             const sql = `UPDATE shareholders SET balance = ${currentAmount-withdrawing} WHERE shareholder_id = ${req.body.shareholder_id}`;
             const result = await conn.query(sql);
             res.status(200).json({ message: 'Data inserted successfully'})
+            conn.end();
         }catch(err){
             console.error('Error inserting data:', err);
             res.status(500).json({ error: 'Failed to insert data' });
+            conn.end();
             throw err;
         }finally {
             if(conn) conn.end();
@@ -287,9 +295,11 @@ app.post("/extendlease", async (req, res) => {
         const extendleasesql = `SELECT * FROM invoices WHERE shop_id = '${shop_id}' ORDER BY date_to DESC LIMIT 1;`;
         result = await conn.query(extendleasesql);
        console.log(result);
+       conn.end();
     }catch(err){
         console.error('Error inserting data:', err);
         res.status(500).json({ error: 'Failed to insert data' });
+        conn.end();
         throw err;
     }finally {
         if(conn) conn.end();
@@ -309,9 +319,11 @@ app.post("/extendlease", async (req, res) => {
         const result1 = await conn.query(createInvoice);
         const result2 = await conn.query(addbalancetoshareholder);
         res.status(200).json({ message: 'Data inserted successfully'})
+        conn.end();
     }catch(err){
         console.error('Error inserting data:', err);
         res.status(500).json({ error: 'Failed to insert data' });
+        conn.end();
         throw err;
     }finally {
         if(conn) conn.end();
@@ -367,9 +379,11 @@ app.post("/payemployee", async (req, res) => {
        console.log(invoice);
        employee = await conn.query(employeesql);
        console.log(employee)
+       conn.end();
     }catch(err){
         console.error('Error inserting data:', err);
         res.status(500).json({ error: 'Failed to insert data' });
+        conn.end();
         throw err;
     }finally {
         if(conn) conn.end();
@@ -385,9 +399,11 @@ app.post("/payemployee", async (req, res) => {
         const createInvoicesql = `INSERT INTO employeeinvoice (employee_id, date_from, date_to, salary, duration_month, distributed ) VALUES ('${employee_id}', '${date_from}', '${date_to}', ${salary}, ${duration}, 0);`;
         const result1 = await conn.query(createInvoicesql);
         res.status(200).json({ message: 'Data inserted successfully'})
+        conn.end();
     }catch(err){
         console.error('Error inserting data:', err);
         res.status(500).json({ error: 'Failed to insert data' });
+        conn.end();
         throw err;
     }finally {
         if(conn) conn.end();
