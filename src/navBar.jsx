@@ -21,34 +21,34 @@ const NavBar = () => {
             setDashboard(false)
         }
         
-        if(currentPath === "/tenants"){
+        if(currentPath === "/tenants" || currentPath === "/tenants/"){
             setTenants(true)
         }else{
             setTenants(false)
         }
         
-        if(currentPath === "/shareholders"){
+        if(currentPath === "/shareholders" || currentPath === "/shareholders/"){
             setShareholders(true)
         }else{
             setShareholders(false)
         }
        
-        if(currentPath === "/employees"){
+        if(currentPath === "/employees" || currentPath === "/employees/"){
             setEmployees(true)
         }else{
             setEmployees(false)
         }
        
-        if(currentPath === "/shops"){
+        if(currentPath === "/shops" || currentPath === "/shops/"){
             setShops(true)
         }else{
             setShops(false)
         }
 
-        if(currentPath === "/maintainance"){
-            setMaintainance(true)
-        }else{
-            setMaintainance(false)
+        if (currentPath === "/maintainance/" || currentPath === "/maintainance") {
+            setMaintainance(true);
+        } else {
+            setMaintainance(false);
         }
     }
     useEffect(() => {

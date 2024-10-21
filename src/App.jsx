@@ -28,9 +28,10 @@ function App() {
             <Route path="/employees" element={<Employees/>}/>
             <Route path="/maintainance" element={<Maintainance/>}/>
             <Route path="/shops" element={<Shops/>}/>
+            <Route path="*" element ={<div className='text bg-green-800'>404 Not found</div>} />
           </Routes>
         </div>
-        
+
         <div className="p-3 hidden 2xl:block "><TheOtherSideBar /></div>
       </div>
       

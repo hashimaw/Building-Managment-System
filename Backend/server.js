@@ -181,14 +181,14 @@ app.post("/updateshopprice", async (req, res) => {
 app.post("/changeshareholder", async (req, res) => {
     console.log(req.body)
 
-    const changeshareholdersql = `UPDATE shops SET shareholder_id = ${req.body.shareholder_id} WHERE shop_id = ${req.body.shop_id}`;
+    const changeshareholdersql = `UPDATE shops SET shareholder_id = ${req.body.shareholder_id} WHERE shop_id = '${req.body.shop_id}'`;
     executeAddQuerys(changeshareholdersql, res);
 });
 
 app.post("/editshopid", async (req, res) => {
     console.log(req.body)
     
-    const editshopidsql = `UPDATE shops SET shop_id = ${req.body.newShopId} WHERE shop_id = ${req.body.shop_id}`;
+    const editshopidsql = `UPDATE shops SET shop_id = '${req.body.newShopId}' WHERE shop_id = '${req.body.shop_id}'`;
     executeAddQuerys(editshopidsql, res);  
 });
 
