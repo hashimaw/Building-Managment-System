@@ -52,7 +52,7 @@ const executeGetQuerys = async (sql, res) => {
     try{
         conn = await pool.getConnection();
         const result = await conn.query(sql);
-        res.status(200).json({ message: 'Data inserted successfully'})
+        res.status(200).json({ message: 'Data inserted successfully please reload the page'})
         conn.end();
     }catch(err){
         console.error('Error inserting data:', err);
@@ -225,7 +225,7 @@ app.post("/withdraw", async (req, res) => {
             conn = await pool.getConnection()
             const sql = `UPDATE shareholders SET balance = ${currentAmount-withdrawing} WHERE shareholder_id = ${req.body.shareholder_id}`;
             const result = await conn.query(sql);
-            res.status(200).json({ message: 'Data inserted successfully'})
+            res.status(200).json({ message: 'Data inserted successfully please reload the page'})
             conn.end();
         }catch(err){
             console.error('Error inserting data:', err);
@@ -285,7 +285,7 @@ app.post("/leaseshop", async (req, res) => {
         await conn.query(addbalancetoshareholder);
 
         if (!res.headersSent) {
-            res.status(200).json({ message: 'Data inserted successfully' });
+            res.status(200).json({ message: 'Data inserted successfully please reload the page' });
           }
       
         } catch (err) {
@@ -341,7 +341,7 @@ app.post("/extendlease", async (req, res) => {
         await conn.query(addbalancetoshareholder);
 
     if (!res.headersSent) {
-      res.status(200).json({ message: 'Data inserted successfully' });
+      res.status(200).json({ message: 'Data inserted successfully please reload the page' });
     }
 
   } catch (err) {
@@ -453,7 +453,7 @@ app.post("/payemployee", async (req, res) => {
         conn = await pool.getConnection()
         const createInvoicesql = `INSERT INTO employeeinvoice (employee_id, date_from, date_to, salary, duration_month, distributed ) VALUES ('${employee_id}', '${date_from}', '${date_to}', ${salary}, ${duration}, 0);`;
         const result1 = await conn.query(createInvoicesql);
-        res.status(200).json({ message: 'Data inserted successfully'})
+        res.status(200).json({ message: 'Data inserted successfully please reload the page'})
         conn.end();
     }catch(err){
         console.error('Error inserting data:', err);
