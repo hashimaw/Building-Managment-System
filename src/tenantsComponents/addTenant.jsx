@@ -1,16 +1,35 @@
-import { useState } from "react";
-import { Input, Select, Option} from "@material-tailwind/react";
+import { Select, TextInput, Center, Modal, LoadingOverlay } from '@mantine/core';
+import { IMaskInput } from 'react-imask';
+import { useDisclosure } from '@mantine/hooks';
+import { useQuery } from '@tanstack/react-query'
+import { useForm } from '@mantine/form';
+
 
 const AddTenanat = ({api}) =>{
 
-        const [firstName, setFirstName] = useState('');
-        const [lastName, setLastName] = useState('');
-        const [contact, setContact] = useState('');
-        const [gender, setGender] = useState();
- 
-        const [errorMessage, setErrorMessage] = useState('');
-        const [successMessage, setSuccessMessage] = useState('');
-      
+    const [opened, { open, close }] = useDisclosure(false);
+
+    const form = useForm({
+        mode: 'uncontrolled',
+        initialValues: { firstName: '', lastName: '', gender: '', contact: ''},
+        validate: {
+            firstName: (value) => (value.length == 0 ? 'Please write tenant first name' : null),
+            lastName: (value) => (value <= 0 ? "Please write tenant second name" : null),
+            gender: (value) => (value.length == 0 ? 'Please select the gender' : null),
+            contact: (value) => (value.length == 18 ? null : 'phone NO is needed'),
+           },
+        });
+
+        const { isPending, error, data } = useQuery({
+            queryKey: ['tenants'],
+            queryFn: () =>
+              fetch(`${api}/addtenant`).then((res) =>
+                res.json(),
+              ),
+              enabled: true,
+          })
+        
+
         const handleSubmit = async (e) => {
           e.preventDefault();
           if(!gender){
@@ -48,46 +67,49 @@ const AddTenanat = ({api}) =>{
 
     return (
         <>
-            <div className="w-96  bg-[#2d2d2d] rounded-lg p-5 text-[#b0b0b0] text-start text-sm font-medium font-['Montserrat']" >
-          
-                <form onSubmit={handleSubmit}>
-                    <div className="flex flex-col gap-8 items-center">
-                        <div className="flex w-full justify-between text-gray-200">
-                            <h1 className="text-gray-200 text-xl self-center">Add Tenant</h1>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 hover:cursor-pointer">
-                                <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div className="flex flex-col w-64 gap-5">
-                            <Input
-                                id="first_name"
-                                value={firstName}
-                                onChange={(e) => setFirstName(e.target.value)}
-                                color="white" type="name" required placeholder="eg. john" label="First Name" 
-                                className="placeholder-blue-gray-400 appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
-                            <Input
-                                id="last_name"
-                                value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
-                                color="white" type="name" required placeholder="eg. john" label="last Name" 
-                                className="placeholder-blue-gray-400 appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
-                            <Select color='white' label="Select Gender" className="placeholder-blue-gray-400 text-white" 
-                                    id="gender" required error:message
-                                    value={gender}
-                                    onChange={(val) => setGender(val)}>
-                                <Option value="M">Male</Option>
-                                <Option value="F">Female</Option>
-                            </Select>
-                            <Input 
-                                id="contact"
-                                value={contact}
-                                onChange={(e) => setContact(e.target.value)}
-                                color='white' type="number" required inputMode="numeric" placeholder="eg. 936684258" label="Phone No." 
-                                className="placeholder-blue-gray-400 appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
-                          
-
-                            
-                        </div>
+            <button onClick={open} >
+                <div className="px-4 py-2 hover:bg-[#008f97] transition-all ease-in-out  bg-[#00adb5] rounded text-center self-center flex gap-2 items-center text-white text-lg" >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" text-white size-5">
+                        <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                    </svg>
+                    Add Tenant
+                </div>
+            </button>
+            
+            <Modal opened={opened} onClose={close} title="Add Tenant" centered>
+                <form onSubmit={form.onSubmit(handleSubmit)}>
+                    
+                    <LoadingOverlay visible={isPending} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }}>
+                    </LoadingOverlay>
+                    <TextInput mb={7}
+                        label="First Name"
+                        placeholder="Mike"
+                        key={form.key('firstName')}
+                        {...form.getInputProps('firstName')}
+                    /> 
+                    <TextInput mb={7}
+                        label="Last Name"
+                        placeholder="Hammer"
+                        key={form.key('lastName')}
+                        {...form.getInputProps('lastName')}
+                    /> 
+                    <Select mb={7}
+                        label="Gender"
+                        placeholder='Male'
+                        data={['Male','Female']}
+                        key={form.key('gender')}
+                        {...form.getInputProps('gender')}
+                    />
+                    
+                    <TextInput mb={15}
+                        label='Phone No' 
+                        component={IMaskInput} 
+                        mask="+251 (00) 000-0000" 
+                        placeholder="Your phone" 
+                        key={form.key('contact')}
+                        {...form.getInputProps('contact')}
+                    />
+                    <Center>
                         <button className="w-64 self-center">
                                 <div className="px-4 py-2 hover:bg-[#008f97] transition-all ease-in-out  bg-[#00adb5] rounded text-center items-center self-center flex place-content-center gap-2 text-white text-lg" >
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" text-white size-5">
@@ -96,13 +118,11 @@ const AddTenanat = ({api}) =>{
                                     Add Tenant
                                 </div>
                         </button> 
-                        {errorMessage && <p className="text-red-400">{errorMessage}</p>}
-                        {successMessage && <p className="text-teal-500">{successMessage}</p>}
-                    </div>
+                    </Center>
                     
                 </form>
-                
-            </div>
+            </Modal>
+            
         </>
 
     );
