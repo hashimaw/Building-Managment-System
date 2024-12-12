@@ -1,28 +1,24 @@
-import { useEffect, useState } from "react";
+import { Skeleton } from '@mantine/core';
 import Popup from 'reactjs-popup';
+import { useQuery } from '@tanstack/react-query'
 import AddTenanat from "../src/tenantsComponents/addTenant";
 import EditTenant from "../src/tenantsComponents/editTenant";
 import PaymentForm from "../src/tenantsComponents/paymentForm";
 import LeaseShopForTenant from "../src/tenantsComponents/leaseShopForTenant";
 
+
 const Tenants = ({api}) => {
 
-    const [tenants, setTenants] = useState(null);
-    const [isPending, setIsPending] = useState(true);
-    
-    useEffect(() => {
-        fetch( `${api}/tenants`)
-        .then(res => {
-            return res.json();
-        })
-        .then(data => {
-            setTenants(data);
-            setIsPending(false);
-        })
-        },[])
-    
-   
+    const { isPending, error, data } = useQuery({
+        queryKey: ['tenants'],
+        queryFn: () =>
+          fetch(`${api}/tenants`).then((res) =>
+            res.json(),
+          ),
+          enabled: true,
+      })
 
+      
     return (
         <div className="lg:w-[800px] px-3 max-h-fit bg-[#202020] rounded-lg text-[#b0b0b0] text-start text-sm font-medium font-['Montserrat']">
             <div className="grid grid-flow-col justify-between py-2">
@@ -55,6 +51,7 @@ const Tenants = ({api}) => {
                 </div>
                 
             </div>
+
             <table className="border-separate border-spacing-y-2">
                 <thead>
                     <tr className="text-white text-base font-semibold font-['Montserrat']">
@@ -70,10 +67,30 @@ const Tenants = ({api}) => {
                 </thead>
 
                 <tbody>
-                {isPending && <tr> <td>Loading...</td></tr>}
+                    {isPending&&
+                        <tr>
+                            <td colSpan='8'>
+                                <Skeleton visible={!isPending}> 
+                                    <Skeleton height={20} width={770} mt={15} radius="xl"/> 
+                                    <Skeleton height={20} width={770} mt={15} radius="xl"/> 
+                                    <Skeleton height={20} width={770} mt={15} radius="xl"/> 
+                                    <Skeleton height={20} width={770} mt={15} radius="xl"/> 
+                                    <Skeleton height={20} width={770} mt={15} radius="xl"/> 
+                                    <Skeleton height={20} width={770} mt={15} radius="xl"/> 
+                                </Skeleton>
+                            </td>
+                        </tr>
+                    }
 
-                {tenants && tenants.map((tenant) => (
-                    
+                    {error &&  
+                        <tr>
+                            <td colSpan='8' className='text-center text-xl text-red-400'>
+                            An error has occurred: {error.message}
+                            </td>
+                        </tr>
+                    }
+
+                {data && data.map((tenant) => (
                     <tr key={tenant.tenant_id} className="bg-[#111111]  overflow-hidden">
                         <td className="py-2 pl-3">{tenant.first_name +" "+ tenant.last_name}</td>
                         <td>{tenant.gender}</td>

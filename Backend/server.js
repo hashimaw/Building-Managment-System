@@ -72,6 +72,7 @@ app.get("/tenants", async (req, res) => {
     t.gender,
     t.phone,
     t.active,
+    t.created_At,
     s.shop_id,
     s.price,
     i.invoice_id,
@@ -89,7 +90,7 @@ LEFT JOIN
     (SELECT invoice_id, tenant_id, shop_id, date_from, date_to, active,
              RANK() OVER (PARTITION BY shop_id ORDER BY date_to DESC) as rk
      FROM invoices) i ON s.shop_id = i.shop_id AND i.rk = 1
-     ORDER BY remaining_days ASC;`;
+     ORDER BY remaining_days ASC, created_At DESC;`;
  
     executeGetQuerys(gettenantsql, res);
   

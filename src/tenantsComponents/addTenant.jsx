@@ -1,7 +1,7 @@
 import { Select, TextInput, Center, Modal, LoadingOverlay } from '@mantine/core';
 import { IMaskInput } from 'react-imask';
 import { useDisclosure } from '@mantine/hooks';
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from '@mantine/form';
 
 
@@ -9,61 +9,36 @@ const AddTenanat = ({api}) =>{
 
     const [opened, { open, close }] = useDisclosure(false);
 
+    const queryClient = useQueryClient();
+
+
     const form = useForm({
         mode: 'uncontrolled',
-        initialValues: { firstName: '', lastName: '', gender: '', contact: ''},
+        initialValues: { first_name: '', last_name: '', gender: '', phone: ''},
         validate: {
-            firstName: (value) => (value.length == 0 ? 'Please write tenant first name' : null),
-            lastName: (value) => (value <= 0 ? "Please write tenant second name" : null),
+            first_name: (value) => (value.length == 0 ? 'Please write tenant first name' : null),
+            last_name: (value) => (value <= 0 ? "Please write tenant second name" : null),
             gender: (value) => (value.length == 0 ? 'Please select the gender' : null),
-            contact: (value) => (value.length == 18 ? null : 'phone NO is needed'),
+            phone: (value) => (value.length == 18 ? null : 'phone NO is needed'),
            },
         });
 
-        const { isPending, error, data } = useQuery({
-            queryKey: ['tenants'],
-            queryFn: () =>
-              fetch(`${api}/addtenant`).then((res) =>
-                res.json(),
-              ),
-              enabled: true,
+        const {mutate, isPending, error } = useMutation({
+            mutationFn: (newPost) => 
+              fetch(`${api}/addtenant`, {
+                method: "POST",
+                body: JSON.stringify(newPost),
+                headers: {"Content-type": "application/json; charset=UTF-8"}
+              }).then((res) => { if (!res.ok) { return res.json().then((error) => { throw new Error(error.message || "Something went wrong"); }); } return res.json(); }),
+              onError:()=>{open()},
+              onSuccess:() => {
+                queryClient.invalidateQueries({queryKey: ["tenants"]});
+                form.reset();
+                close();
+              }
           })
-        
 
-        const handleSubmit = async (e) => {
-          e.preventDefault();
-          if(!gender){
-        
-          } else {
-            
-            try {
-                const response = await fetch(`${api}/addtenant`,
-                {
-                    method: 'POST',
-                    headers: {
-                    'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                    first_name: firstName,
-                    last_name: lastName,
-                    phone: contact,
-                    gender: gender
-                    })
-                });
-        
-                if (response.status === 200) {
-                setErrorMessage('');
-                setSuccessMessage('Data inserted successfully');
-                } else {
-                throw new Error('Failed to insert data');
-                }
-            } catch (error) {
-                setErrorMessage('Error inserting data: ' + error.message);
-                setSuccessMessage('');
-            }
-        }
-        };
-      
+          const handleSubmit = (values) => { mutate({ ...values }); };
 
     return (
         <>
@@ -81,17 +56,18 @@ const AddTenanat = ({api}) =>{
                     
                     <LoadingOverlay visible={isPending} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }}>
                     </LoadingOverlay>
+                    {error&&<div className='text-center text-red-400'>{error.message}</div>}
                     <TextInput mb={7}
                         label="First Name"
                         placeholder="Mike"
-                        key={form.key('firstName')}
-                        {...form.getInputProps('firstName')}
+                        key={form.key('first_name')}
+                        {...form.getInputProps('first_name')}
                     /> 
                     <TextInput mb={7}
                         label="Last Name"
                         placeholder="Hammer"
-                        key={form.key('lastName')}
-                        {...form.getInputProps('lastName')}
+                        key={form.key('last_name')}
+                        {...form.getInputProps('last_name')}
                     /> 
                     <Select mb={7}
                         label="Gender"
@@ -100,14 +76,13 @@ const AddTenanat = ({api}) =>{
                         key={form.key('gender')}
                         {...form.getInputProps('gender')}
                     />
-                    
                     <TextInput mb={15}
                         label='Phone No' 
                         component={IMaskInput} 
                         mask="+251 (00) 000-0000" 
                         placeholder="Your phone" 
-                        key={form.key('contact')}
-                        {...form.getInputProps('contact')}
+                        key={form.key('phone')}
+                        {...form.getInputProps('phone')}
                     />
                     <Center>
                         <button className="w-64 self-center">
