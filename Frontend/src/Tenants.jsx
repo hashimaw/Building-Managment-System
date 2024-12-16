@@ -1,4 +1,4 @@
-import { Skeleton } from '@mantine/core';
+import { Skeleton, Menu } from '@mantine/core';
 import Popup from 'reactjs-popup';
 import { useQuery } from '@tanstack/react-query'
 import AddTenanat from "../src/tenantsComponents/addTenant";
@@ -98,9 +98,29 @@ const Tenants = ({api}) => {
                         <td className="text-light-blue-400">{tenant.price && <p>ETB { tenant.price}</p>}</td>
                         <td>{tenant.date_from && new Date (tenant.date_from).toLocaleDateString("en-US", {year:'numeric', month:'short',day:'numeric'})}</td>
                         <td>{tenant.date_to && <p>{ new Date (tenant.date_to).toLocaleDateString("en-US", {year:'numeric', month:'short',day:'numeric'})} <span className={`${tenant.remaining_days>=10 ?'text-green-500':'' } ${tenant.remaining_days<=9&&tenant.remaining_days>=1 ?'text-amber-500':'' } ${tenant.remaining_days<=0 ?'text-red-500':'' }`}> {tenant.remaining_days} d.</span></p> }</td>
-                        <td>{tenant.phone}</td> 
+                        <td>{tenant.phone}</td> <EditTenant className='z-50' api = {api} tenant = {tenant} />
                         <td className="pr-3 my-4">
-                        <Popup trigger={
+                        <Menu trigger="hover" openDelay={100} closeDelay={400} width={200} shadow="md">
+      <Menu.Target>
+      <button className=" mt-2">
+                                    <svg width="20" height="22" viewBox="0 0 4 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="1.99996" cy="1.84615" r="1.84615" fill="white"/>
+                                        <circle cx="1.99996" cy="10.5385" r="1.84615" fill="white"/>
+                                        <circle cx="1.99996" cy="19.2307" r="1.84615" fill="white"/>
+                                    </svg> 
+                                </button>
+      </Menu.Target>
+
+      <Menu.Dropdown>
+        <Menu.Item>
+          Mantine website
+        </Menu.Item>
+        <Menu.Item>
+        
+        </Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
+                        {/* <Popup trigger={
                                 <button className=" mt-2">
                                     <svg width="20" height="22" viewBox="0 0 4 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <circle cx="1.99996" cy="1.84615" r="1.84615" fill="white"/>
@@ -113,14 +133,14 @@ const Tenants = ({api}) => {
                                    <Popup modal trigger={ <span className="hover:bg-[rgb(17,17,17)] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">{tenant.shop_id ?(<div>Payment</div>):(<div className="text-[#2dd4bf]">Lease Shop</div>)}</span>}>
                                    {tenant.active? <PaymentForm api = {api} tenant = {tenant}/> : <LeaseShopForTenant api = {api} tenant = {tenant}/>}
                                    </Popup>
-                                   <Popup modal trigger={ <span className="hover:bg-[#111111] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">Edit Information</span>}>
+                                   
                                    <EditTenant api = {api} tenant = {tenant} />
-                                   </Popup>
+                                   
                                   
                                 </div>
                                 )}
                                 
-                            </Popup>
+                            </Popup> */}
                             
                         </td>
                     </tr>

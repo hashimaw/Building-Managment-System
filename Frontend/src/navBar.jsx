@@ -72,7 +72,7 @@ const NavBar = () => {
                 <div className=" text-white text-xl font-semibold font-['Montserrat'] ">PMS</div>
             </div>
 
-            <ul className="flex gap-10 self-end  text-gray-500 text-lg font-medium font-['Montserrat'] -mr-16">
+            <ul className="flex gap-10 self-end  text-gray-400 text-lg font-medium font-['Montserrat'] -mr-16">
                 <div className='flex relative justify-center'>
                     <svg className= {Dashboard? activeSvgProperties : inactiveSvgProperties} viewBox="0 0 225 81" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.50841 20.1819C8.93128 8.65663 18.7224 0 30.3351 0H194.665C206.278 0 216.069 8.65663 217.492 20.1819L225 81H0L7.50841 20.1819Z" fill="black"/>
