@@ -17,3 +17,8 @@
     background: #2d2d2d; /* color of the scrollbar track */
     border-radius: 20px;
 }
+
+.mantine-Popover-dropdown.mantine-Select-dropdown {
+    z-index: 1000 !important;
+  }
+  

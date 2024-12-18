@@ -53,10 +53,10 @@ const EditTenant = ({tenant, api}) =>{
             </button> */}
 
             
-            <Modal zIndex={1000} className='z-50' opened={opened} onClose={close} title="Add Tenant" centered>
+            <Modal zIndex={999} className='z-50' opened={opened} onClose={close} title="Add Tenant" centered>
                 <form onSubmit={form.onSubmit(handleSubmit)}>
                     
-                    <LoadingOverlay visible={isPending} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }}>
+                    <LoadingOverlay visible={isPending} overlayProps={{ radius: "sm", blur: 2 }}>
                     </LoadingOverlay>
                     {error&&<div className='text-center text-red-400'>{error.message}</div>}
                     <TextInput mb={7}
@@ -73,7 +73,6 @@ const EditTenant = ({tenant, api}) =>{
                         {...form.getInputProps('last_name')}
                     /> 
                     <Select mb={7}
-                        zIndex={1100}
                         label="Gender"
                         placeholder='Male'
                         data={['Male','Female']}
@@ -99,7 +98,7 @@ const EditTenant = ({tenant, api}) =>{
                             </div>
                         </button> 
                     </Center>
-                    <style jsx global>{` .dropdown-class { z-index: 1200 !important; /* Ensure dropdown is above the modal */ } `}</style>
+
                 </form>
             </Modal>
             
