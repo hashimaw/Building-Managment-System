@@ -108,11 +108,11 @@ const Tenants = ({api}) => {
                                         <circle cx="1.99996" cy="19.2307" r="1.84615" fill="white"/>
                                     </svg> 
                                 </button>} position="left top" nested>
-                                
+
                                 <div className="bg-[#202020] border-gray-700 border rounded text-gray-300 text-sm p-1 gap-1 flex flex-col">
-                                   <Popup modal trigger={ <span className="hover:bg-[rgb(17,17,17)] border border-[#1d1d1d] hover:border-gray-700 py-0.5 px-2 rounded cursor-pointer">{tenant.shop_id ?(<div>Payment</div>):(<div className="text-[#2dd4bf]">Lease Shop</div>)}</span>}>
-                                   {tenant.active? <PaymentForm api = {api} tenant = {tenant}/> : <LeaseShopForTenant api = {api} tenant = {tenant}/>}
-                                   </Popup>
+                                   {tenant.shop_id ?(<div>Payment</div>):<LeaseShopForTenant api = {api} tenant = {tenant}/>}
+                                   {/* {tenant.active? <PaymentForm api = {api} tenant = {tenant}/> : <LeaseShopForTenant api = {api} tenant = {tenant}/>} */}
+                                   
                                    <EditTenant className='z-50' api = {api} tenant = {tenant} />
                                 </div>
                             </Popup>

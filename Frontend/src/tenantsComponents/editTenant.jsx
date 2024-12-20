@@ -17,9 +17,9 @@ const EditTenant = ({tenant, api}) =>{
         initialValues: { ...tenant},
         validate: {
             first_name: (value) => (value.length == 0 ? 'Please write tenant first name' : null),
-            last_name: (value) => (value <= 0 ? "Please write tenant second name" : null),
+            last_name: (value) => (value == 0 ? "Please write tenant second name" : null),
             gender: (value) => (value.length == 0 ? 'Please select the gender' : null),
-            phone: (value) => (value.length == 18 ? null : 'phone NO is needed'),
+            phone: (value) => (value.length == 18 ? null : 'Phone NO is needed'),
            },
         });
 
